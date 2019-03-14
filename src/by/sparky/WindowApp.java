@@ -1,40 +1,45 @@
 package by.sparky;
 
-import javafx.scene.shape.Ellipse;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.RoundRectangle2D;
+import java.util.Random;
 
-public class WindowApp extends JFrame {
-
-    public void drawShapes() {
-        setSize(new Dimension(320, 320));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-
-        JPanel p = new JPanel() {
-            @Override
-            public void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g;
-                Shape circle = new Ellipse2D.Double(100, 100, 10, 10);
-                g2.draw(circle);
-            }
-        };
-        setTitle("My Shapes");
-        this.getContentPane().add(p);
-    }
+public class WindowApp {
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
+        new WindowApp().start();
+    }
 
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                new WindowApp().drawShapes();
+    private void start() {
+        JFrame frame = new JFrame();
+        frame.setSize(1366, 768);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        PhysicObject[] physicObjects = new PhysicObject[10];
+        Random random = new Random();
+        Random random1 = new Random();
+        for (int i = 0; i < physicObjects.length; i++) {
+            physicObjects[i] = new PhysicObject(10000.0d + random.nextDouble() * 200000, random.nextDouble() * random1.nextInt(1366), random1.nextDouble() * random.nextInt(768));
+        }
+        PhysicsEngine physicsEngine = new PhysicsEngine();
+        physicsEngine.setPhysicObject(physicObjects);
+        physicsEngine.setInteractions(new Gravity());
+
+
+        ViewPhysicObject view = new ViewPhysicObject(physicObjects);
+        view.setSize(1366, 768);
+        frame.add(view, BorderLayout.CENTER);
+        frame.setVisible(true);
+
+        physicsEngine.simulate();
+
+        while (true) {
+            view.repaint();
+            try {
+                Thread.sleep(1000 / 60);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
+        }
     }
 }
