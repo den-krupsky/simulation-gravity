@@ -42,9 +42,12 @@ public class PhysicsEngine {
         @Override
         public void run() {
             this.counter++;
+            long start = System.currentTimeMillis();
+            System.out.print("Start calculate interactions at " + new Date());
             for (Interaction interaction : interactions) {
                 interaction.calculate(physicObjects, frameRate * counter);
             }
+            System.out.println(" and end for " + (System.currentTimeMillis() - start) + " ms");
         }
     }
 }
