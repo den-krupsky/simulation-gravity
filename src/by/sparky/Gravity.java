@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Gravity implements Interaction {
 
-    private static final double G = 6.674d * Math.pow(10,-11);
+    public static final double G = 6.674d * Math.pow(10,-11);
     private ArrayList<Vector2D> gravityAccelerations = new ArrayList<>(100);
 
     @Override
