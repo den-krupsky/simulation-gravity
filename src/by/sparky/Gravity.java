@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Gravity implements Interaction {
 
-    public static final double G = 6.674d * Math.pow(10,-11);
+    public static final double G = 6.674d * Math.pow(10, -11);
     private ArrayList<Vector2D> gravityAccelerations = new ArrayList<>(100);
 
     @Override
     public void calculate(PhysicObject[] physicObjects, double dTime) {
-        dTime = dTime * 1000;
+        dTime = dTime * 1 / 2;
 
         if (true) {
                 calculateDiff(physicObjects, dTime);

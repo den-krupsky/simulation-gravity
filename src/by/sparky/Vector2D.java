@@ -64,6 +64,7 @@ public class Vector2D {
             }
             forceVectors[i].mul(GN);
         }
+        return forceVectors[0];
     }
 
     public void mul(double c) {
