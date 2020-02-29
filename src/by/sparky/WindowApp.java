@@ -9,11 +9,17 @@ import java.util.concurrent.ThreadLocalRandom;
 public class WindowApp {
     private final JFrame frame;
     private final PhysicsEngine physicsEngine;
+    private final ViewPhysicObject objectsView;
     private List<Interaction> interactionList = new ArrayList<>();
 
-    public WindowApp(JFrame frame) {
+    public WindowApp(JFrame frame, int objectCount, Interaction... interactions) {
         this.frame = frame;
+
+        PhysicObject[] generated = generate(objectCount);
+        objectsView = new ViewPhysicObject(generated);
         physicsEngine = new PhysicsEngine();
+        physicsEngine.setPhysicObject(generated);
+        physicsEngine.setInteractions(interactions);
     }
 
     private PhysicObject[] generate(int count) {
@@ -35,7 +41,7 @@ public class WindowApp {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
 
-        WindowApp windowApp = new WindowApp(frame);
+        WindowApp windowApp = new WindowApp(frame, 30, new Gravity());
         windowApp.addInteraction(new Gravity());
         windowApp.start();
     }
@@ -45,20 +51,14 @@ public class WindowApp {
     }
 
     private void start() {
-        PhysicObject[] physicObjects = generate(30);
-
-        ViewPhysicObject view = new ViewPhysicObject(physicObjects);
-        view.setSize(frame.getWidth(), frame.getHeight());
-        frame.add(view, BorderLayout.CENTER);
+        objectsView.setSize(frame.getWidth(), frame.getHeight());
+        frame.add(objectsView, BorderLayout.CENTER);
         frame.setVisible(true);
-
-        physicsEngine.setPhysicObject(physicObjects);
-        physicsEngine.setInteractions(interactionList.toArray(new Interaction[0]));
 
         physicsEngine.simulate();
 
         while (true) {
-            view.repaint();
+            objectsView.repaint();
             try {
                 Thread.sleep(1000 / 60);
             } catch (InterruptedException e) {
