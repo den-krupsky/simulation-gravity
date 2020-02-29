@@ -2,21 +2,29 @@ package by.sparky;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class WindowApp {
     private final JFrame frame;
+    private final PhysicsEngine physicsEngine;
+    private List<Interaction> interactionList = new ArrayList<>();
 
     public WindowApp(JFrame frame) {
         this.frame = frame;
+        physicsEngine = new PhysicsEngine();
     }
 
-    private PhysicObject[] generate() {
-        PhysicObject[] physicObjects = new PhysicObject[30];
-        Random random = new Random();
-        Random random1 = new Random();
+    private PhysicObject[] generate(int count) {
+        PhysicObject[] physicObjects = new PhysicObject[count];
+        ThreadLocalRandom tlr = ThreadLocalRandom.current();
+        double mass, initX, initY;
         for (int i = 0; i < physicObjects.length; i++) {
-            physicObjects[i] = new PhysicObject(10000.0d + random.nextDouble() * 20000, random.nextDouble() * random1.nextInt(1366), random1.nextDouble() * random.nextInt(768));
+            mass = 10000.0d + tlr.nextDouble() * 20000;
+            initX = tlr.nextDouble() * tlr.nextInt(frame.getWidth());
+            initY = tlr.nextDouble() * tlr.nextInt(frame.getHeight());
+            physicObjects[i] = new PhysicObject(mass, initX, initY);
         }
         return physicObjects;
     }
@@ -28,21 +36,24 @@ public class WindowApp {
         frame.setUndecorated(true);
 
         WindowApp windowApp = new WindowApp(frame);
+        windowApp.addInteraction(new Gravity());
         windowApp.start();
     }
 
-    private void start() {
-        PhysicObject[] physicObjects = generate();
+    private void addInteraction(Interaction interaction) {
+        this.interactionList.add(interaction);
+    }
 
-        PhysicsEngine physicsEngine = new PhysicsEngine();
-        physicsEngine.setPhysicObject(physicObjects);
-        physicsEngine.setInteractions(new Gravity());
+    private void start() {
+        PhysicObject[] physicObjects = generate(30);
 
         ViewPhysicObject view = new ViewPhysicObject(physicObjects);
-
         view.setSize(frame.getWidth(), frame.getHeight());
         frame.add(view, BorderLayout.CENTER);
         frame.setVisible(true);
+
+        physicsEngine.setPhysicObject(physicObjects);
+        physicsEngine.setInteractions(interactionList.toArray(new Interaction[0]));
 
         physicsEngine.simulate();
 
