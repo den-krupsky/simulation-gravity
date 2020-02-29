@@ -2,15 +2,12 @@ package by.sparky;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class WindowApp {
     private final JFrame frame;
     private final PhysicsEngine physicsEngine;
     private final ViewPhysicObject objectsView;
-    private List<Interaction> interactionList = new ArrayList<>();
 
     public WindowApp(JFrame frame, int objectCount, Interaction... interactions) {
         this.frame = frame;
@@ -42,12 +39,7 @@ public class WindowApp {
         frame.setUndecorated(true);
 
         WindowApp windowApp = new WindowApp(frame, 30, new Gravity());
-        windowApp.addInteraction(new Gravity());
         windowApp.start();
-    }
-
-    private void addInteraction(Interaction interaction) {
-        this.interactionList.add(interaction);
     }
 
     private void start() {
