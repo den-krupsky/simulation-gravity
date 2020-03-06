@@ -1,0 +1,29 @@
+package by.sparky.graphic;
+
+import by.sparky.Point;
+
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+
+public class CircleObject implements Graphics2DObject {
+    private static final Color DEFAULT = Color.BLACK;
+
+    private final by.sparky.Point point;
+    private final Color color;
+
+    public CircleObject(by.sparky.Point point) {
+        this(point, DEFAULT);
+    }
+
+    public CircleObject(Point point, Color color) {
+        this.point = point;
+        this.color = color;
+    }
+
+    @Override
+    public void render(Graphics2D g2d) {
+        double pointSize = point.getSize();
+        g2d.setColor(DEFAULT);
+        g2d.fill(new Ellipse2D.Double(point.getX(), point.getY(), pointSize, pointSize));
+    }
+}

@@ -1,19 +1,30 @@
 package by.sparky;
 
+import by.sparky.graphic.CircleObject;
+import by.sparky.graphic.Graphics2DObject;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class WindowApp {
     private final JFrame frame;
     private final PhysicsEngine physicsEngine;
-    private final ViewPhysicObject objectsView;
+    private final Renderer objectsView;
 
     public WindowApp(JFrame frame, int objectCount, Interaction... interactions) {
         this.frame = frame;
 
         PhysicObject[] generated = generate(objectCount);
-        objectsView = new ViewPhysicObject(generated);
+        List<Graphics2DObject> shapes = Stream.of(generated)
+                .map(CircleObject::new)
+                .collect(Collectors.toList());
+
+        objectsView = new Renderer(shapes);
         physicsEngine = new PhysicsEngine();
         physicsEngine.setPhysicObject(generated);
         physicsEngine.setInteractions(interactions);
@@ -33,7 +44,7 @@ public class WindowApp {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Gravitation");
+        JFrame frame = new JFrame("Gravity simulator");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
