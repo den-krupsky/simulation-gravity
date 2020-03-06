@@ -3,17 +3,17 @@ package graphic;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class CircleObject implements Graphics2DObject {
+public class CircleShape implements Rendered {
     private static final Color DEFAULT = Color.BLACK;
 
     private final Point point;
     private final Color color;
 
-    public CircleObject(Point point) {
+    public CircleShape(Point point) {
         this(point, DEFAULT);
     }
 
-    public CircleObject(Point point, Color color) {
+    public CircleShape(Point point, Color color) {
         this.point = point;
         this.color = color;
     }

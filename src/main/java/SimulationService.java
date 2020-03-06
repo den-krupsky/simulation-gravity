@@ -1,6 +1,6 @@
-import graphic.Graphics2DObject;
+import graphic.Rendered;
 import physic.Gravity;
-import physic.PhysicObject;
+import physic.PhysicalAgent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,11 +16,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SimulationService implements Runnable {
-    public final List<PhysicObject> physicObjects = new ArrayList<>();
+    public final List<PhysicalAgent> physicalAgents = new ArrayList<>();
     private final AtomicInteger dt = new AtomicInteger(0);
 
     private final JPanel view;
-    public final Collection<Graphics2DObject> objects2D = new ArrayList<>();
+    public final Collection<Rendered> objects2D = new ArrayList<>();
     private static int FRAME_RATE = 1000 / 60;
 
     private final ScheduledExecutorService ses;
@@ -47,12 +47,12 @@ public class SimulationService implements Runnable {
     private void simulate() {
         System.out.println("dt: " + dt.get());
 
-        Gravity.simpleAlgorithm(physicObjects, dt.getAndUpdate(i -> ++i));
+        Gravity.simpleAlgorithm(physicalAgents, dt.getAndUpdate(i -> ++i));
     }
 
-    public void add(List<PhysicObject> objects, Function<PhysicObject, Graphics2DObject> transformer) {
-        physicObjects.addAll(objects);
-        physicObjects.parallelStream()
+    public void add(List<PhysicalAgent> objects, Function<PhysicalAgent, Rendered> transformer) {
+        physicalAgents.addAll(objects);
+        physicalAgents.parallelStream()
                 .map(Objects.requireNonNull(transformer, "transformer is null"))
                 .collect(Collectors.toCollection(() -> objects2D));
     }

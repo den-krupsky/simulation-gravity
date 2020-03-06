@@ -1,5 +1,5 @@
-import graphic.CircleObject;
-import physic.PhysicObject;
+import graphic.CircleShape;
+import physic.PhysicalAgent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class WindowApp {
+public class Application {
 
     public static void main(String[] args) {
         DisplayMode dm = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
@@ -18,10 +18,10 @@ public class WindowApp {
     }
 
     private static SimulationService initialize(int count, int width, int height) {
-        List<PhysicObject> generated = Arrays.asList(generate(count, width, height));
+        List<PhysicalAgent> generated = Arrays.asList(generate(count, width, height));
 
         SimulationService simulationService = new SimulationService();
-        simulationService.add(generated, (CircleObject::new));
+        simulationService.add(generated, (CircleShape::new));
 
         JFrame frame = new JFrame("Gravity simulator");
         frame.add(simulationService.getView(), BorderLayout.CENTER);
@@ -33,17 +33,17 @@ public class WindowApp {
         return simulationService;
     }
 
-    private static PhysicObject[] generate(int count, int width, int height) {
-        PhysicObject[] physicObjects = new PhysicObject[count];
+    private static PhysicalAgent[] generate(int count, int width, int height) {
+        PhysicalAgent[] physicalAgents = new PhysicalAgent[count];
         ThreadLocalRandom tlr = ThreadLocalRandom.current();
         double mass, initX, initY;
-        for (int i = 0; i < physicObjects.length; i++) {
+        for (int i = 0; i < physicalAgents.length; i++) {
             mass = 20000.0d + tlr.nextDouble() * (20000 * 3);
             initX = tlr.nextDouble(0, width);
             initY = tlr.nextDouble(0, height);
-            physicObjects[i] = new PhysicObject(mass, initX, initY);
+            physicalAgents[i] = new PhysicalAgent(mass, initX, initY);
         }
-        return physicObjects;
+        return physicalAgents;
     }
 
 }

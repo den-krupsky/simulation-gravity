@@ -2,14 +2,14 @@ package physic;
 
 import graphic.Point;
 
-public class PhysicObject implements Point {
+public class PhysicalAgent implements Point {
     protected double mass;
     protected double x;
     protected double y;
     protected double vx;
     protected double vy;
 
-    public PhysicObject(double mass, double x, double y) {
+    public PhysicalAgent(double mass, double x, double y) {
         this.mass = mass;
         this.x = x;
         this.y = y;

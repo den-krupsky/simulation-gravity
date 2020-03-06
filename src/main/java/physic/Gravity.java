@@ -5,7 +5,7 @@ import java.util.List;
 public final class Gravity {
     public static final double G = 6.674d * Math.pow(10, -11);
 
-    public static void simpleAlgorithm(List<PhysicObject> objects, double dt) {
+    public static void simpleAlgorithm(List<PhysicalAgent> objects, double dt) {
         for (int i = 0; i < objects.size(); i++) {
             for (int j = 0; j < objects.size(); j++) {
                 if (i == j) continue; //exclude self
@@ -20,7 +20,7 @@ public final class Gravity {
                 });
     }
 
-    private static void setVelocity(double dt, PhysicObject basic, PhysicObject other) {
+    private static void setVelocity(double dt, PhysicalAgent basic, PhysicalAgent other) {
         double dx = other.x - basic.x;
         double dy = other.y - basic.y;
 
