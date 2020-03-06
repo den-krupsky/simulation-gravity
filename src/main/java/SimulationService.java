@@ -21,10 +21,8 @@ public class SimulationService implements Runnable {
 
     private final JPanel view;
     public final Collection<Rendered> objects2D = new ArrayList<>();
-    private static int FRAME_RATE = 1000 / 60;
 
     private final ScheduledExecutorService ses;
-
 
     public SimulationService() {
         this.ses = Executors.newScheduledThreadPool(2);
@@ -33,7 +31,6 @@ public class SimulationService implements Runnable {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
-                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
                 objects2D.forEach(o2d -> o2d.render(g2d));
             }
@@ -51,13 +48,14 @@ public class SimulationService implements Runnable {
 
     public void add(List<PhysicalAgent> objects, Function<PhysicalAgent, Rendered> transformer) {
         physicalAgents.addAll(objects);
-        physicalAgents.parallelStream()
+        physicalAgents.stream()
                 .map(Objects.requireNonNull(transformer, "transformer is null"))
                 .collect(Collectors.toCollection(() -> objects2D));
     }
 
     @Override
     public void run() {
+        final int FRAME_RATE = 1000 / 60;
         ses.scheduleWithFixedDelay(this::simulate, 0, FRAME_RATE, TimeUnit.MILLISECONDS);
         ses.scheduleAtFixedRate(view::repaint, 0, FRAME_RATE, TimeUnit.MILLISECONDS);
 

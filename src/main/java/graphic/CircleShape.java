@@ -21,7 +21,11 @@ public class CircleShape implements Rendered {
     @Override
     public void render(Graphics2D g2d) {
         double pointSize = point.getSize();
-        g2d.setColor(DEFAULT);
+        g2d.setColor(Color.WHITE);
+        g2d.draw(new Ellipse2D.Double(point.getX(), point.getY(), pointSize, pointSize));
+        g2d.setColor(Color.LIGHT_GRAY);
+        g2d.draw(new Ellipse2D.Double(point.getX(), point.getY(), pointSize - 2 / pointSize, pointSize - 2 / pointSize));
+        g2d.setColor(color);
         g2d.fill(new Ellipse2D.Double(point.getX(), point.getY(), pointSize, pointSize));
     }
 }
