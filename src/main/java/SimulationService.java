@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class SimulationService implements Runnable {
     public final List<PhysicalAgent> physicalAgents = new ArrayList<>();
-    private final AtomicInteger dt = new AtomicInteger(0);
+    private double dt = 1.0d;
 
     private final JPanel view;
     public final Collection<Rendered> objects2D = new ArrayList<>();
@@ -45,9 +45,8 @@ public class SimulationService implements Runnable {
     }
 
     private void simulate() {
-        System.out.println("dt: " + dt.get());
-
-        Gravity.simpleAlgorithm(physicalAgents, dt.getAndUpdate(i -> ++i));
+        dt += 1 / dt;
+        Gravity.simpleAlgorithm(physicalAgents, dt);
     }
 
     public void add(List<PhysicalAgent> objects, Function<PhysicalAgent, Rendered> transformer) {
