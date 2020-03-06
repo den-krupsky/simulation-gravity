@@ -12,7 +12,7 @@ public class Application {
     public static void main(String[] args) {
         DisplayMode dm = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
 
-        int count = args.length > 0 ? Integer.parseInt(args[0]) : 10;
+        int count = args.length > 0 ? Integer.parseInt(args[0]) : 100;
         SimulationService simulationService = initialize(count, dm.getWidth(), dm.getHeight());
         simulationService.run();
     }
