@@ -24,7 +24,7 @@ public class WindowApp {
         ThreadLocalRandom tlr = ThreadLocalRandom.current();
         double mass, initX, initY;
         for (int i = 0; i < physicObjects.length; i++) {
-            mass = 10000.0d + tlr.nextDouble() * 20000;
+            mass = 1000.0d + tlr.nextDouble() * 200000;
             initX = tlr.nextDouble() * tlr.nextInt(1366);
             initY = tlr.nextDouble() * tlr.nextInt(768);
             physicObjects[i] = new PhysicObject(mass, initX, initY);
