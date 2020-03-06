@@ -13,6 +13,7 @@ public class Application {
         DisplayMode dm = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode();
 
         int count = args.length > 0 ? Integer.parseInt(args[0]) : 100;
+        if (count < 1) throw new IllegalArgumentException("Objects count must be greater than 1: " + count);
         SimulationService simulationService = initialize(count, dm.getWidth(), dm.getHeight());
         simulationService.run();
     }
