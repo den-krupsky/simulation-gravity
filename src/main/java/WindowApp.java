@@ -39,8 +39,8 @@ public class WindowApp {
         double mass, initX, initY;
         for (int i = 0; i < physicObjects.length; i++) {
             mass = 20000.0d + tlr.nextDouble() * (20000 * 3);
-            initX = tlr.nextInt(width / 4, width / 4 * 3) * tlr.nextDouble();
-            initY = tlr.nextInt(height / 4, height / 4 * 3) * tlr.nextDouble();
+            initX = tlr.nextDouble(0, width);
+            initY = tlr.nextDouble(0, height);
             physicObjects[i] = new PhysicObject(mass, initX, initY);
         }
         return physicObjects;
