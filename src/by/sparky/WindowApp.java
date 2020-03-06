@@ -13,10 +13,10 @@ import java.util.stream.Stream;
 
 public class WindowApp {
     private final JFrame frame;
-    private final PhysicsEngine physicsEngine;
+    private final GravitySimulation gravitySimulation;
     private final Renderer objectsView;
 
-    public WindowApp(JFrame frame, int objectCount, Interaction... interactions) {
+    public WindowApp(JFrame frame, int objectCount) {
         this.frame = frame;
 
         PhysicObject[] generated = generate(objectCount);
@@ -25,9 +25,11 @@ public class WindowApp {
                 .collect(Collectors.toList());
 
         objectsView = new Renderer(shapes);
-        physicsEngine = new PhysicsEngine();
-        physicsEngine.setPhysicObject(generated);
-        physicsEngine.setInteractions(interactions);
+        gravitySimulation = new GravitySimulation();
+        objectsView.setSize(frame.getWidth(), frame.getHeight());
+        frame.add(objectsView, BorderLayout.CENTER);
+        frame.setVisible(true);
+        gravitySimulation.getPhysicObjects().addAll(Arrays.asList(generated));
     }
 
     private PhysicObject[] generate(int count) {
@@ -49,16 +51,12 @@ public class WindowApp {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
 
-        WindowApp windowApp = new WindowApp(frame, 30, new Gravity());
+        WindowApp windowApp = new WindowApp(frame, 30);
         windowApp.start();
     }
 
     private void start() {
-        objectsView.setSize(frame.getWidth(), frame.getHeight());
-        frame.add(objectsView, BorderLayout.CENTER);
-        frame.setVisible(true);
-
-        physicsEngine.simulate();
+        gravitySimulation.simulate();
 
         while (true) {
             objectsView.repaint();

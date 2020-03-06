@@ -48,25 +48,6 @@ public class Vector2D {
         return position;
     }
 
-    public static Vector2D resultingForces(PhysicObject[] objects) {
-        Vector2D[] forceVectors = new Vector2D[objects.length];
-
-        double GN = Gravity.G * objects.length;
-
-        for (int i = 0; i < objects.length; i++) {
-            for (int n = 0; n < objects.length; n++) {
-                if (i == n) continue; //object not interacting with self
-                Vector2D radiusVector = new Vector2D(objects[n].x - objects[i].x, objects[n].y - objects[i].y); // radius vector
-                double r3 = Math.pow(Vector2D.value(radiusVector), 3);
-                double calculation = objects[i].mass * objects[n].mass / r3;
-                radiusVector.mul(calculation);
-                forceVectors[i].add(radiusVector);
-            }
-            forceVectors[i].mul(GN);
-        }
-        return forceVectors[0];
-    }
-
     public void mul(double c) {
         this.x *= c;
         this.y *= c;
