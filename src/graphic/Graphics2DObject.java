@@ -1,4 +1,4 @@
-package by.sparky.graphic;
+package graphic;
 
 import java.awt.*;
 

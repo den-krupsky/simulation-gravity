@@ -1,6 +1,4 @@
-package by.sparky.graphic;
-
-import by.sparky.Point;
+package graphic;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -8,10 +6,10 @@ import java.awt.geom.Ellipse2D;
 public class CircleObject implements Graphics2DObject {
     private static final Color DEFAULT = Color.BLACK;
 
-    private final by.sparky.Point point;
+    private final Point point;
     private final Color color;
 
-    public CircleObject(by.sparky.Point point) {
+    public CircleObject(Point point) {
         this(point, DEFAULT);
     }
 

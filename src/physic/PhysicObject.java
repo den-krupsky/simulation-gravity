@@ -1,4 +1,6 @@
-package by.sparky;
+package physic;
+
+import graphic.Point;
 
 public class PhysicObject implements Point {
     protected double mass;
@@ -7,7 +9,7 @@ public class PhysicObject implements Point {
     protected double vx;
     protected double vy;
 
-    PhysicObject(double mass, double x, double y) {
+    public PhysicObject(double mass, double x, double y) {
         this.mass = mass;
         this.x = x;
         this.y = y;

@@ -1,4 +1,4 @@
-package by.sparky;
+package graphic;
 
 public interface Point {
     double getY();
