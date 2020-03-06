@@ -23,10 +23,6 @@ public class GravitySimulation {
         };
     }
 
-    public List<PhysicObject> getPhysicObjects() {
-        return physicObjects;
-    }
-
     public void simulate() {
         Timer timer = new Timer(false);
         timer.schedule(timeline, 0, 1000 / 60);
@@ -35,7 +31,7 @@ public class GravitySimulation {
     protected static void simpleAlgorithm(PhysicObject[] objects, double dt) {
         for (int i = 0; i < objects.length; i++) {
             for (int j = 0; j < objects.length; j++) {
-                if (i == j) continue;
+                if (i == j) continue; //exclude self
                 setVelocity(dt, objects[i], objects[j]);
             }
         }

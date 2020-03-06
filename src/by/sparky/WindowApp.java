@@ -12,27 +12,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class WindowApp {
-    private final JFrame frame;
-    private final GravitySimulation gravitySimulation;
-    private final Renderer objectsView;
 
-    public WindowApp(JFrame frame, int objectCount) {
-        this.frame = frame;
-
-        PhysicObject[] generated = generate(objectCount);
-        List<Graphics2DObject> shapes = Stream.of(generated)
-                .map(CircleObject::new)
-                .collect(Collectors.toList());
-
-        objectsView = new Renderer(shapes);
-        gravitySimulation = new GravitySimulation();
-        objectsView.setSize(frame.getWidth(), frame.getHeight());
-        frame.add(objectsView, BorderLayout.CENTER);
-        frame.setVisible(true);
-        gravitySimulation.getPhysicObjects().addAll(Arrays.asList(generated));
-    }
-
-    private PhysicObject[] generate(int count) {
+    private static PhysicObject[] generate(int count) {
         PhysicObject[] physicObjects = new PhysicObject[count];
         ThreadLocalRandom tlr = ThreadLocalRandom.current();
         double mass, initX, initY;
@@ -51,15 +32,24 @@ public class WindowApp {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
 
-        WindowApp windowApp = new WindowApp(frame, 30);
-        windowApp.start();
-    }
+        PhysicObject[] generated = generate(30);
 
-    private void start() {
+        GravitySimulation gravitySimulation = new GravitySimulation();
+        gravitySimulation.physicObjects.addAll(Arrays.asList(generated));
+
+        List<Graphics2DObject> shapes = Stream.of(generated)
+                .map(CircleObject::new)
+                .collect(Collectors.toList());
+        Renderer renderer = new Renderer(shapes);
+        renderer.setSize(frame.getWidth(), frame.getHeight());
+
+        frame.add(renderer, BorderLayout.CENTER);
+        frame.setVisible(true);
+
         gravitySimulation.simulate();
 
         while (true) {
-            objectsView.repaint();
+            renderer.repaint();
             try {
                 Thread.sleep(1000 / 60);
             } catch (InterruptedException e) {
@@ -67,4 +57,5 @@ public class WindowApp {
             }
         }
     }
+
 }
