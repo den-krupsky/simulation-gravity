@@ -4,7 +4,7 @@ Simple gravity simulator using Swing
 
 ## Running
 
-Run command **maven package** *
+Run command **maven package** 
 
 And then type from target folder **java -jar simulation-gravity-1.1.jar**
 
